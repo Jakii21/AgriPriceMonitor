@@ -15,3 +15,4 @@ def get_connection():
     )
 
     return SqlConnection
+
