@@ -111,4 +111,39 @@ VALUES
 ('Las Pinas', 'Metro Manila', 'NCR'),
 ('Muntinlupa', 'Metro Manila', 'NCR');
 
+---Markets
+INSERT INTO markets
+(market_name, city_id)
+VALUES
+('La Huerta Market', 1),
+('New Las Pinas City Public Market', 2),
+('Pamilihang Lungsod ng Muntinlupa', 3);
+
+---Categories
+INSERT INTO categories
+(category_name)
+VALUES
+('Rice'),
+('Vegetable'),
+('Meat'),
+('Fruits');
+
+
+---Subcategories
+INSERT INTO subcategories
+(subcategory_name, category_id)
+VALUES
+('Lowland Vegetables', 2),
+('Highland Vegetables', 2);
+
+
+---Units
+INSERT INTO units
+(unit_name)
+VALUES
+('kg'),
+('piece'),
+('liter'),
+('dozen');
+
 
