@@ -4,6 +4,15 @@ import pandas as pd
 
 BASE_URL = "http://www.bantaypresyo.da.gov.ph"
 
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+}
+
+PROXIES = {
+    "http": None,
+    "https": None
+}
+
 REGION = "130000000"
 
 TARGET_MARKETS = {
@@ -52,7 +61,7 @@ def get_date(commodity_id):
         "commodity": commodity_id
     }
 
-    response = requests.post(url, data=paylaod)
+    response = requests.post(url, data=paylaod, headers=HEADERS, timeout=10, proxies=PROXIES)
 
     price_date = pd.to_datetime(response.text.strip()).date()
 
@@ -71,7 +80,7 @@ def get_market_headers(commodity_id):
         "region": REGION
     }
 
-    response = requests.post(url, data=payload)
+    response = requests.post(url, data=payload, headers=HEADERS, timeout=10, proxies=PROXIES)
 
     soup = BeautifulSoup(response.text,"html.parser")
 
@@ -94,7 +103,7 @@ def get_price_rows(commodity_id):
         "commodity": commodity_id,
         "region": REGION }
 
-    response = requests.post(url, data=paylaod)
+    response = requests.post(url, data=paylaod, headers=HEADERS, timeout=10, proxies=PROXIES)
 
     soup = BeautifulSoup(response.text,"html.parser")
 
