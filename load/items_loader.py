@@ -1,4 +1,15 @@
-from load.db_connection import get_connection
+import sys
+import os
+
+# Ensure project root is in sys.path for both direct script execution and package imports
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+try:
+    from load.db_connection import get_connection
+except ModuleNotFoundError:
+    from db_connection import get_connection
 
 # MARKET MAPPING ----------------------------------------------------
 market_mapping = {

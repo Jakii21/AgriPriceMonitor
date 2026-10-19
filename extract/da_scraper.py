@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import time
 
 BASE_URL = "http://www.bantaypresyo.da.gov.ph"
 
@@ -50,6 +51,22 @@ COMMODITIES = {
 }
 
 #-----------------------------------------------------------------------------------------------
+def post_with_retry(url, data, headers, timeout=20, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = requests.post(url, data=data, headers=headers, timeout=timeout, proxies=PROXIES)
+            response.raise_for_status()
+            return response
+        except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            if attempt == max_retries - 1:
+                print(f"Connection failed after {max_retries} attempts for URL: {url}")
+                raise e
+            wait_time = 2 ** attempt
+            print(f"Connection timed out for {url}. Retrying in {wait_time}s (Attempt {attempt + 1}/{max_retries})...")
+            import time as t
+            t.sleep(wait_time)
+
+#-----------------------------------------------------------------------------------------------
 
 def get_date(commodity_id):
 
@@ -61,7 +78,7 @@ def get_date(commodity_id):
         "commodity": commodity_id
     }
 
-    response = requests.post(url, data=paylaod, headers=HEADERS, timeout=10, proxies=PROXIES)
+    response = post_with_retry(url, paylaod, HEADERS)
 
     price_date = pd.to_datetime(response.text.strip()).date()
 
@@ -80,7 +97,7 @@ def get_market_headers(commodity_id):
         "region": REGION
     }
 
-    response = requests.post(url, data=payload, headers=HEADERS, timeout=10, proxies=PROXIES)
+    response = post_with_retry(url, payload, HEADERS)
 
     soup = BeautifulSoup(response.text,"html.parser")
 
@@ -103,7 +120,7 @@ def get_price_rows(commodity_id):
         "commodity": commodity_id,
         "region": REGION }
 
-    response = requests.post(url, data=paylaod, headers=HEADERS, timeout=10, proxies=PROXIES)
+    response = post_with_retry(url, paylaod, HEADERS)
 
     soup = BeautifulSoup(response.text,"html.parser")
 
