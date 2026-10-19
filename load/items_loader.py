@@ -76,7 +76,8 @@ def insert_price_record(sqlConnect,price_date,market_id,item_id,
             price_average = VALUES(price_average)
     """
 
-    sql_crsr.execute(query,(price_date,market_id,item_id,source_id,specification,price))
+    sql_crsr.execute(query,(price_date,market_id,item_id,
+                            source_id,specification,price))
 
     sqlConnect.commit()
 
