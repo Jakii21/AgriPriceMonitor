@@ -15,7 +15,7 @@ except ImportError:
 # Page configuration
 st.set_page_config(
     page_title="Agri Price Monitor - Market Price Overview",
-    page_icon="🌾",
+    page_icon="",
     layout="wide"
 )
 
@@ -26,12 +26,12 @@ if df.empty:
     st.warning("No data found in database. Please run the ETL pipeline (`python main.py`) first or check database connection.")
 else:
     # Header
-    st.title("🌾 AGRI PRICE MONITOR")
+    st.title(" AGRI PRICE MONITOR")
     st.markdown("### Market Price Overview | Daily Market Price Analytics")
     st.markdown("---")
 
     # Sidebar Filters
-    st.sidebar.header("🔍 Filters")
+    st.sidebar.header("Filters")
 
     # City Filter
     cities = sorted(df['city_name'].dropna().unique())
@@ -66,7 +66,7 @@ else:
         date_filtered_df = filtered_df
 
     # --- KPI Metrics Cards ---
-    st.subheader(f"📊 Summary Metrics for {selected_date if selected_date else 'All Dates'}")
+    st.subheader(f" Summary Metrics for {selected_date if selected_date else 'All Dates'}")
     
     col1, col2, col3, col4, col5 = st.columns(5)
 
@@ -88,7 +88,7 @@ else:
     row1_col1, row1_col2 = st.columns(2)
 
     with row1_col1:
-        st.markdown("#### 📈 Price Trend Over Time")
+        st.markdown("#### Price Trend Over Time")
         if not filtered_df.empty:
             trend_df = filtered_df.groupby(['price_date', 'category_name'])['price_average'].mean().reset_index()
             fig_trend = px.line(
@@ -105,7 +105,7 @@ else:
             st.info("No data available for the selected filters.")
 
     with row1_col2:
-        st.markdown("#### 🏷️ Average Price by Category")
+        st.markdown("#### Average Price by Category")
         if not date_filtered_df.empty:
             cat_df = date_filtered_df.groupby('category_name')['price_average'].mean().reset_index()
             fig_cat = px.bar(
@@ -122,7 +122,7 @@ else:
             st.info("No data available for the selected filters.")
 
     # Second row: Market Comparison bar chart
-    st.markdown("#### 🛒 Average Price by Market")
+    st.markdown("#### Average Price by Market")
     if not date_filtered_df.empty:
         market_df = date_filtered_df.groupby(['market_name', 'city_name'])['price_average'].mean().reset_index()
         fig_market = px.bar(
@@ -140,5 +140,5 @@ else:
         st.info("No data available for the selected filters.")
 
     # Data Table Preview
-    with st.expander("📋 View Filtered Raw Data"):
+    with st.expander("View Filtered Raw Data"):
         st.dataframe(date_filtered_df, use_container_width=True)
