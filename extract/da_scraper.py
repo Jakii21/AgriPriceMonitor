@@ -112,7 +112,7 @@ def get_price_rows(commodity_id):
     return rows
 
 #-----------------------------------------------------------------------------------------------
-                  #Table rows      #Header names         #Date        #Category Name
+             #Table rows #Header name #Date #Category Name
 def build_records(rowss, headers, price_date, categoryName):
 
     records = []
