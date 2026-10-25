@@ -28,15 +28,3 @@ if __name__ == "__main__":
     main()
 
 
-"""
-main.py
-   ↓
-scrape_all()
-   ↓
-clean_data()
-   ↓
-validate_data()
-   ↓
-load_prices()
-   ↓
-insert_price_record()"""

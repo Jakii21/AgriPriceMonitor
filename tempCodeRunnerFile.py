@@ -1,2 +1,0 @@
-
-    finalDf = cleanData(finalDf)
