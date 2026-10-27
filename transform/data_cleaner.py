@@ -8,38 +8,38 @@ def cleanData(finalDf):
     print("\n--- TRANSFORM ---")
     print("Records before cleaning:", len(df))
 
-    # Standardize column names---------------------------------
+    # Standardize column names
     df.columns = [column.strip().lower()
         for column in df.columns]
 
-    # Make sure price is numeric ---------------------------------
+    # Make sure price is numeric
     df["price"] = pnds.to_numeric(df["price"],errors="coerce")
 
-    # Make sure price_date is a date ---------------------------------
+    # Make sure price_date is a date 
     df["price_date"] = pnds.to_datetime(df["price_date"],errors="coerce").dt.date
 
     # ***Report how many records removed each cleaning stage
     before_price_filter = len(df)
 
-    # Remove records with invalid prices ---------------------------------
+    # Remove records with invalid prices 
     df = df[df["price"].notna() & (df["price"] > 0)]
 
-    # **************************************************
+    #------------------------------------------------------------------
     invalid_prices_removed = ( before_price_filter - len(df))
     print( "Invalid prices removed:", invalid_prices_removed )
 
-    # ***Report how many records removed each cleaning stage
+    # Report how many records removed each cleaning stage
     before_duplicates = len(df)
 
-    # Remove duplicate records ---------------------------------
+    # Remove duplicate records 
     df = df.drop_duplicates(
         subset=["price_date", "market", "item", "specification"])
 
-    #**************************************************
+    #------------------------------------------------------------------
     duplicates_removed = (before_duplicates - len(df))
     print( "Duplicates removed:",duplicates_removed)
 
-    # Clean text fields ---------------------------------
+    # Clean text fields 
     text_columns = ["category", "city", "market", "item", "specification"]
 
     for column in text_columns:
@@ -47,8 +47,7 @@ def cleanData(finalDf):
 
     # ----------------Clean specification------------------------------
 
-    df["specification"] = ( df["specification"]
-        .replace("", pnds.NA)
+    df["specification"] = ( df["specification"].replace("", pnds.NA)
         .replace("N/A", pnds.NA)
         .str.strip() )
 
@@ -85,8 +84,7 @@ def validateData(df):
         print(missing_values)
 
         # Check invalid prices
-        invalid_prices = df[
-            df["price"].isnull() | (df["price"] <= 0)]
+        invalid_prices = df[df["price"].isnull() | (df["price"] <= 0)]
 
         print("\nInvalid price records: ", len(invalid_prices) )
 
@@ -128,8 +126,7 @@ def validateData(df):
         print("\nValidation passed.")
 
     #-----------------------Clean specification----------------------------------------
-        missing_specifications = df[
-            df["specification"].isna() ]
+        missing_specifications = df[df["specification"].isna() ]
 
         print("Missing specifications:",len(missing_specifications))
         print("\n")

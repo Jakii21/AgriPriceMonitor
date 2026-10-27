@@ -4,14 +4,9 @@ import pandas as pd
 
 BASE_URL = "http://www.bantaypresyo.da.gov.ph"
 
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-}
+HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
-PROXIES = {
-    "http": None,
-    "https": None
-}
+PROXIES = {"http": None, "https": None }
 
 REGION = "130000000"
 
@@ -170,7 +165,7 @@ def scrape_all():
     allData = []
 
     for cmmdty in COMMODITIES:
-        df = scrape_category(cmmdty)            # This is where the commodity_id came from
+        df = scrape_category(cmmdty)     # This is where the commodity_id came from
         allData.append(df)
 
     finalDf = pd.concat(allData,ignore_index=True)
@@ -182,7 +177,7 @@ def scrape_all():
 
 
 
-
+ 
 
 
 
